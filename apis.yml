@@ -1,0 +1,73 @@
+---
+aid: massey
+name: Massey University
+description: >-
+  Massey University is a public research university in New Zealand with campuses
+  in Palmerston North, Wellington, and Auckland, ranked #239 in the QS World
+  University Rankings 2025. Its public, machine-readable footprint is centered on
+  Massey Research Online (MRO), the institutional repository built on DSpace 8.3,
+  which exposes a standards-based OAI-PMH 2.0 metadata-harvesting interface and a
+  HAL/JSON DSpace REST API. The university's former M-API WebService is now a
+  legacy service and is no longer available. There is no broadly published
+  general-purpose developer portal; most institutional API access (the historical
+  M-API) was gated behind an ITS Service Desk developer-key request.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/massey/refs/heads/main/apis.yml
+tags:
+  - Education
+  - Higher Education
+  - University
+  - Research
+  - Open Access
+  - Institutional Repository
+  - New Zealand
+created: '2026-06-03'
+modified: '2026-06-03'
+specificationVersion: '0.19'
+apis:
+  - aid: massey:mro-oai-pmh
+    name: Massey Research Online OAI-PMH
+    description: >-
+      OAI-PMH 2.0 metadata-harvesting interface for Massey Research Online (MRO),
+      the DSpace institutional repository providing free full-text access to
+      Massey University research outputs, theses, and dissertations. Supports the
+      standard OAI-PMH verbs (Identify, ListRecords, ListSets, GetRecord, etc.)
+      for harvesting Dublin Core and other metadata formats.
+    humanURL: https://mro.massey.ac.nz/
+    baseURL: https://mro.massey.ac.nz/server/oai/request
+    tags: [ OAI-PMH, Metadata Harvesting, Repository, Open Access, DSpace, Research ]
+    properties:
+      - type: Documentation
+        url: https://mro.massey.ac.nz/
+  - aid: massey:mro-rest
+    name: Massey Research Online DSpace REST API
+    description: >-
+      HAL/JSON REST API for Massey Research Online, running DSpace 8.3. Exposes
+      hypermedia (HATEOAS) endpoints for communities, collections, items,
+      bundles, bitstreams, and metadata, enabling programmatic discovery and
+      retrieval of repository content.
+    humanURL: https://mro.massey.ac.nz/
+    baseURL: https://mro.massey.ac.nz/server/api
+    tags: [ REST, HAL, JSON, DSpace, Repository, Open Access, Research ]
+    properties:
+      - type: Documentation
+        url: https://mro.massey.ac.nz/
+common:
+  - type: Website
+    url: https://www.massey.ac.nz/
+  - type: LinkedIn
+    url: https://www.linkedin.com/school/massey-university/
+  - type: Plans
+    url: plans/massey-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/massey-rate-limits.yml
+  - type: FinOps
+    url: finops/massey-finops.yml
+  - type: Review
+    url: review.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
