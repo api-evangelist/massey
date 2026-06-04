@@ -1,0 +1,51 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "massey": "https://www.massey.ac.nz/#vocab/",
+    "name": "schema:name",
+    "url": "schema:url",
+    "description": "schema:description",
+    "logo": "schema:logo",
+    "sameAs": "schema:sameAs",
+    "address": "schema:address",
+    "department": "schema:department",
+    "api": {
+      "@id": "massey:api",
+      "@container": "@set"
+    },
+    "humanURL": "schema:url",
+    "baseURL": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "Repository": "massey:Repository",
+    "Community": "massey:Community",
+    "Collection": "schema:CollectionPage",
+    "Item": "schema:CreativeWork",
+    "Bitstream": "schema:MediaObject",
+    "Metadata": "massey:Metadata"
+  },
+  "@type": "schema:CollegeOrUniversity",
+  "@id": "https://www.massey.ac.nz/",
+  "name": "Massey University",
+  "url": "https://www.massey.ac.nz/",
+  "sameAs": [
+    "https://www.linkedin.com/school/massey-university/",
+    "https://mro.massey.ac.nz/"
+  ],
+  "description": "Massey University is a public research university in New Zealand with campuses in Palmerston North, Wellington, and Auckland.",
+  "api": [
+    {
+      "@type": "schema:WebAPI",
+      "name": "Massey Research Online OAI-PMH",
+      "humanURL": "https://mro.massey.ac.nz/",
+      "baseURL": "https://mro.massey.ac.nz/server/oai/request"
+    },
+    {
+      "@type": "schema:WebAPI",
+      "name": "Massey Research Online DSpace REST API",
+      "humanURL": "https://mro.massey.ac.nz/",
+      "baseURL": "https://mro.massey.ac.nz/server/api"
+    }
+  ]
+}
