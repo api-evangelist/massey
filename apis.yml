@@ -56,6 +56,8 @@ apis:
       - type: Documentation
         url: https://mro.massey.ac.nz/
 common:
+  - type: DomainSecurity
+    url: security/massey-domain-security.yml
   - type: Website
     url: https://www.massey.ac.nz/
   - type: LinkedIn
