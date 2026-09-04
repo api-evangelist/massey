@@ -1,41 +1,51 @@
 ---
 aid: massey
 name: Massey University
+x-type: university
+x-category: Public Research University
 description: >-
-  Massey University is a public research university in New Zealand with campuses
-  in Palmerston North, Wellington, and Auckland, ranked #239 in the QS World
-  University Rankings 2025. Its public, machine-readable footprint is centered on
-  Massey Research Online (MRO), the institutional repository built on DSpace 8.3,
-  which exposes a standards-based OAI-PMH 2.0 metadata-harvesting interface and a
-  HAL/JSON DSpace REST API. The university's former M-API WebService is now a
-  legacy service and is no longer available. There is no broadly published
-  general-purpose developer portal; most institutional API access (the historical
-  M-API) was gated behind an ITS Service Desk developer-key request.
+  Massey University (Te Kunenga ki Pūrehuroa) is a public research university in New Zealand
+  with campuses in Palmerston North (Manawatū), Wellington and Albany (Auckland). Its
+  machine-readable footprint is real but small, and it is three different things at once.
+  The university itself operates three callable surfaces: an OAI-PMH 2.0 endpoint and a
+  DSpace 8.3 HAL/JSON REST API on its own host for Massey Research Online / Pātaka Rangahau,
+  and the M-API, a news, events and staff-directory web service documented at
+  www.massey.ac.nz/api/v1/ which is live and answering but API-key gated, self-described as
+  unsupported, and closed to new key applications; the later M-API v1_2 host,
+  api.massey.ac.nz, now states the service is no longer available. It operates two identity
+  surfaces that are stronger than any of its APIs: a Shibboleth SAML 2.0 Identity Provider at
+  idp.massey.ac.nz published through the Tuakiri Federation and eduGAIN, and a Microsoft
+  Entra ID tenant discoverable by domain. And it is registered in three identifier
+  registries - DataCite (as a DataCite New Zealand consortium organization with two
+  repositories), Crossref (two members, three prefixes) and ROR. Everything else that looks
+  like a Massey API is a vendor's: library discovery is EBSCO Discovery Service, opening
+  hours and enquiries run on Springshare LibCal and LibAnswers. There is no central developer
+  portal, no published API catalog, no llms.txt and no .well-known/apis.json.
 type: Index
 deliveryModel:
   model: saas
   open_source: false
   commercial: true
-  callable_host: false
+  callable_host: true
   label: Hosted service · you call their endpoint
   confidence: medium
   source:
   - pricing
-  generated: '2026-08-28'
-  method: derived
+  generated: '2026-09-01'
+  method: probed
 accessModel:
   pricing: free
-  onboarding: unknown
+  onboarding: request
   trial: false
   try_now: false
-  public: false
-  label: Free
+  public: true
+  label: Free · open harvesting endpoints, key-gated general API
   confidence: medium
   source:
   - plans
-  generated: '2026-07-22'
-  method: derived
-position: Consumer
+  generated: '2026-09-01'
+  method: probed
+position: Consuming
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/massey.png
 url: https://raw.githubusercontent.com/api-evangelist/massey/refs/heads/main/apis.yml
@@ -43,48 +53,369 @@ tags:
   - Education
   - Higher Education
   - University
+  - New Zealand
   - Research
+  - Research Data
   - Open Access
   - Institutional Repository
-  - New Zealand
+  - OAI-PMH
+  - DSpace
+  - Identity Federation
+  - Shibboleth
+  - SAML
+  - DataCite
+  - Crossref
+  - Library
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-09-01'
 specificationVersion: '0.23'
+x-coverage:
+  state: covered
+  reason: covered
+  detail: >-
+    Three institution-operated surfaces were reached and read live on 2026-09-01: the OAI-PMH
+    endpoint (Identify and ListMetadataFormats), the DSpace REST backend (root, communities
+    and collections anonymous; items and bitstreams 401) and the M-API v1, whose keyless
+    response proves the service is running. Two institution-operated identity surfaces were
+    also read in full - the Shibboleth IdP metadata and the Entra ID OIDC discovery document.
+    Registry memberships were confirmed directly from DataCite, Crossref and ROR. Three
+    limits on this profile are worth stating. First, the M-API is API-key gated and Massey
+    says key applications are not publicly available, so only its documented shape and its
+    error behaviour could be recorded, never a successful data call. Second,
+    mro.massey.ac.nz is genuinely slow and intermittently drops TLS connections - three
+    consecutive fetches of the repository home page returned 000, 200 in 28s and 200 in 36s -
+    so the discovery search endpoint is recorded from the HAL link index rather than from a
+    confirmed 2xx. Third, royalsociety.org.nz returned 403 to every probe, so a probable New
+    Zealand ORCID Consortium membership could not be evidenced and is deliberately not
+    claimed. massey.figshare.com was tested and rejected: *.figshare.com is a wildcard, an
+    invented control subdomain behaves identically, and Massey's own research data guidance
+    points researchers at generic figshare.com. No Figshare tenancy is recorded.
+  evidence:
+    - url: https://mro.massey.ac.nz/server/oai/request?verb=Identify
+      status: 200
+    - url: https://mro.massey.ac.nz/server/oai/request?verb=ListMetadataFormats
+      status: 200
+    - url: https://mro.massey.ac.nz/server/api
+      status: 200
+    - url: https://mro.massey.ac.nz/server/api/core/communities
+      status: 200
+    - url: https://mro.massey.ac.nz/server/api/core/collections
+      status: 200
+    - url: https://mro.massey.ac.nz/server/api/core/items
+      status: 401
+    - url: https://mro.massey.ac.nz/
+      status: 200
+      note: live but slow - 28 to 36 seconds, one of three attempts failed at the TLS layer
+    - url: https://www.massey.ac.nz/api/v1/
+      status: 200
+    - url: https://www.massey.ac.nz/api/v1/massey.cfc?method=get&path=news/articles&args=limit:2
+      status: 200
+      note: 'no key sent; body returns status false, message "Invalid api key" - the service is running'
+    - url: https://api.massey.ac.nz/
+      status: 200
+      note: 'M-API v1_2 landing page states "This is a legacy API service and is no longer available."'
+    - url: https://idp.massey.ac.nz/idp/shibboleth
+      status: 200
+    - url: https://login.microsoftonline.com/massey.ac.nz/v2.0/.well-known/openid-configuration
+      status: 200
+    - url: https://api.datacite.org/providers/massey
+      status: 200
+    - url: https://api.crossref.org/members/12895
+      status: 200
+    - url: https://api.ror.org/v2/organizations/052czxv31
+      status: 200
+    - url: https://www.massey.ac.nz/llms.txt
+      status: 404
+    - url: https://www.massey.ac.nz/.well-known/apis.json
+      status: 404
+    - url: https://www.royalsociety.org.nz/orcid-in-new-zealand/new-zealand-orcid-consortium/who-is-involved-with-the-new-zealand-orcid-consortium/nz-orcid-consortium-members
+      status: 403
+      note: bot-blocked; ORCID consortium membership could not be evidenced and is not claimed
 apis:
   - aid: massey:mro-oai-pmh
     name: Massey Research Online OAI-PMH
+    x-operator: institution
+    x-operator-evidence: >-
+      mro.massey.ac.nz is under Massey's own registrable domain; the Identify response names
+      repositoryIdentifier mro.massey.ac.nz and adminEmail LibIT@massey.ac.nz.
     description: >-
-      OAI-PMH 2.0 metadata-harvesting interface for Massey Research Online (MRO),
-      the DSpace institutional repository providing free full-text access to
-      Massey University research outputs, theses, and dissertations. Supports the
-      standard OAI-PMH verbs (Identify, ListRecords, ListSets, GetRecord, etc.)
-      for harvesting Dublin Core and other metadata formats.
+      OAI-PMH 2.0 metadata-harvesting interface for Massey Research Online (Pātaka Rangahau),
+      the university's DSpace institutional repository of theses, dissertations and research
+      outputs. Fully anonymous, no key. Verified live 2026-09-01: protocolVersion 2.0,
+      granularity YYYY-MM-DDThh:mm:ssZ, deletedRecord transient, identifier scheme
+      oai:mro.massey.ac.nz. Thirteen metadata formats are offered - didl, mods, ore, mets,
+      xoai, dim, rioxx, uketd_dc, qdc, oai_dc, rdf, marc and etdms.
     humanURL: https://mro.massey.ac.nz/
     baseURL: https://mro.massey.ac.nz/server/oai/request
     tags: [ OAI-PMH, Metadata Harvesting, Repository, Open Access, DSpace, Research ]
     properties:
+      - type: OpenAPI
+        url: openapi/massey-mro-dspace-openapi.yml
       - type: Documentation
         url: https://mro.massey.ac.nz/
+      - type: Conformance
+        url: conformance/massey-conformance.yml
   - aid: massey:mro-rest
     name: Massey Research Online DSpace REST API
+    x-operator: institution
+    x-operator-evidence: >-
+      Self-hosted DSpace 8.3 on Massey's own host mro.massey.ac.nz (130.123.100.10). The
+      software is open source and its contract shape is shared with every DSpace 8 install;
+      the deployment, the content and the DOI prefix 10.82921 are Massey's.
     description: >-
-      HAL/JSON REST API for Massey Research Online, running DSpace 8.3. Exposes
-      hypermedia (HATEOAS) endpoints for communities, collections, items,
-      bundles, bitstreams, and metadata, enabling programmatic discovery and
-      retrieval of repository content.
+      HAL/JSON REST API for Massey Research Online, running DSpace 8.3. Anonymous read is
+      permitted on the repository root, communities (19 of them) and collections; item and
+      bitstream listings return 401 "Authentication is required". Verified live 2026-09-01.
+      The host is slow and intermittently drops connections to automated clients.
     humanURL: https://mro.massey.ac.nz/
     baseURL: https://mro.massey.ac.nz/server/api
     tags: [ REST, HAL, JSON, DSpace, Repository, Open Access, Research ]
     properties:
+      - type: OpenAPI
+        url: openapi/massey-mro-dspace-openapi.yml
+      - type: JSONSchema
+        url: json-schema/massey-mro-dspace-root.json
+      - type: Examples
+        url: examples/massey-mro-root.json
+      - type: Authentication
+        url: authentication/massey-authentication.yml
+      - type: Errors
+        url: errors/massey-errors.yml
       - type: Documentation
         url: https://mro.massey.ac.nz/
+  - aid: massey:mapi-v1
+    name: Massey M-API WebService API v1
+    x-operator: institution
+    x-operator-evidence: >-
+      Documented and served on www.massey.ac.nz, Massey's own domain, and described by the
+      university as its own effort to surface Massey data for Massey websites and apps.
+    description: >-
+      Massey University's own news, events and staff-directory web service. A single endpoint,
+      /api/v1/massey.cfc, selects a resource with a `path` parameter - news/articles,
+      news/types, news/categories, events/events, events/types, events/categories or
+      people/people - and filters with semicolon-separated `args` pairs. XML or JSON. Live
+      and answering on 2026-09-01, but API-key gated with key applications not publicly
+      available, and self-described by Massey as "a development experiment for DATA RETRIEVAL
+      ONLY, not recommended for public consumption, is not supported, and may be discontinued
+      without notice". Errors are returned in the body at HTTP 200, not as status codes. The
+      successor host api.massey.ac.nz (v1_2) now states the service is no longer available.
+    humanURL: https://www.massey.ac.nz/api/v1/
+    baseURL: https://www.massey.ac.nz/api/v1/massey.cfc
+    tags: [ News, Events, Directory, Campus, Legacy, API Key ]
+    properties:
+      - type: OpenAPI
+        url: openapi/massey-mapi-openapi.yml
+      - type: JSONSchema
+        url: json-schema/massey-mapi-envelope.json
+      - type: Examples
+        url: examples/massey-mapi-invalid-key.xml
+      - type: Authentication
+        url: authentication/massey-authentication.yml
+      - type: Errors
+        url: errors/massey-errors.yml
+      - type: Lifecycle
+        url: lifecycle/massey-lifecycle.yml
+      - type: Documentation
+        url: https://www.massey.ac.nz/api/v1/
+  - aid: massey:idp-shibboleth
+    name: Massey University Shibboleth Identity Provider
+    x-operator: federation
+    x-operator-evidence: >-
+      entityID https://idp.massey.ac.nz/idp/shibboleth, shibmd:Scope massey.ac.nz, hosted on
+      Massey's own idp.massey.ac.nz. Published in the Tuakiri Federation (New Zealand Access
+      Federation) and in eduGAIN per the REFEDS Metadata Explorer Tool.
+    description: >-
+      Massey University's own SAML 2.0 / Shibboleth Identity Provider. The metadata document
+      is public, machine-readable and continuously published to federation partners. It
+      advertises SAML 2.0, SAML 1.1 and urn:mace:shibboleth:1.0, four SingleSignOnService
+      bindings, four SingleLogoutService bindings and an AttributeAuthorityDescriptor. This
+      is the institution's strongest machine-readable surface - it is operated by Massey, it
+      is standards-conformant, and it is the surface a federated service provider actually
+      integrates with.
+    humanURL: https://met.refeds.org/met/entity/https%3A%2F%2Fidp.massey.ac.nz%2Fidp%2Fshibboleth/
+    baseURL: https://idp.massey.ac.nz/idp/shibboleth
+    tags: [ Identity Federation, Shibboleth, SAML, Tuakiri, eduGAIN, Single Sign-On ]
+    properties:
+      - type: Examples
+        url: examples/massey-idp-metadata-summary.json
+      - type: Authentication
+        url: authentication/massey-authentication.yml
+      - type: Conformance
+        url: conformance/massey-conformance.yml
+  - aid: massey:entra-id
+    name: Massey University Microsoft Entra ID Tenant
+    x-operator: federation
+    x-operator-evidence: >-
+      OIDC discovery by the institution's own domain, login.microsoftonline.com/massey.ac.nz,
+      resolves to tenant 388728e1-bbd0-4378-98dc-f8682e644300. The tenant is Massey's; the
+      platform is Microsoft's.
+    description: >-
+      Massey University's Microsoft Entra ID tenant, discoverable by domain. The OpenID
+      Connect discovery document is public and machine-readable and gives the issuer,
+      authorization, token and JWKS endpoints for Massey staff and student identities.
+      Region scope OC (Oceania). Massey also runs masseyuni.sharepoint.com on the same
+      tenant. Recorded as a relationship and an identity surface - the contract is
+      Microsoft's, the tenant is Massey's.
+    humanURL: https://www.massey.ac.nz/
+    baseURL: https://login.microsoftonline.com/massey.ac.nz/v2.0/.well-known/openid-configuration
+    tags: [ Identity Federation, OpenID Connect, OAuth, Entra ID, Single Sign-On ]
+    properties:
+      - type: Authentication
+        url: authentication/massey-authentication.yml
+  - aid: massey:datacite
+    name: DataCite Membership — Massey University
+    x-operator: registry
+    x-operator-evidence: >-
+      api.datacite.org is DataCite's own host and its contract is DataCite's. The MEMBERSHIP
+      is a fact about Massey: provider id massey, symbol MASSEY, memberType
+      consortium_organization under DataCite New Zealand (DOINZCO), rorId
+      https://ror.org/052czxv31.
+    description: >-
+      Massey University is a DataCite member organization within the DataCite New Zealand
+      consortium and mints DOIs through two active repositories - massey.eqpliw, "Pātaka
+      Rangahau Massey Research Online" (prefix 10.82921, pointing at
+      https://mro.massey.ac.nz/home), and massey.cgeajo, "Massey University Library Ebooks" /
+      Open Educational Resources (prefix 10.82376, registered 2026). This corrects Massey's
+      own research data guidance page, which still says the university does not subscribe to
+      a DOI minting service at the university level. The registry's contract is DataCite's
+      and is not saved here; only the membership is recorded.
+    humanURL: https://commons.datacite.org/providers/massey
+    baseURL: https://api.datacite.org/providers/massey
+    tags: [ DataCite, DOI, Registry, Persistent Identifiers, Research Data ]
+    properties:
+      - type: Conformance
+        url: conformance/massey-conformance.yml
+  - aid: massey:crossref
+    name: Crossref Membership — Massey University
+    x-operator: registry
+    x-operator-evidence: >-
+      api.crossref.org is Crossref's own host. The membership is Massey's: member 12895
+      "Massey University" and member 22782 "Centre for Defence and Security Studies, Massey
+      University".
+    description: >-
+      Massey University registers DOIs with Crossref under member id 12895, prefixes 10.33217
+      and 10.54322, 314 DOIs recorded (22 current, 292 backfile). A second Massey member,
+      22782, covers the Centre for Defence and Security Studies with prefix 10.36878 and 88
+      DOIs. The registry's contract is Crossref's and is not saved here.
+    humanURL: https://www.crossref.org/
+    baseURL: https://api.crossref.org/members/12895
+    tags: [ Crossref, DOI, Registry, Persistent Identifiers, Scholarly Publishing ]
+    properties:
+      - type: Conformance
+        url: conformance/massey-conformance.yml
+  - aid: massey:ror
+    name: ROR Registration — Massey University
+    x-operator: registry
+    x-operator-evidence: >-
+      ror.org is the Research Organization Registry's own host. The record is Massey's:
+      https://ror.org/052czxv31, declaring domain massey.ac.nz, established 1927, types
+      education and funder, GRID grid.148374.d, ISNI 0000 0001 0696 9806, Fundref 501100001554.
+    description: >-
+      Massey University's entry in the Research Organization Registry. This is the canonical
+      machine-readable identifier for the institution and the anchor every other registry
+      record in this profile points back to - DataCite's provider record carries the same ROR
+      id. The registry's contract is ROR's and is not saved here.
+    humanURL: https://ror.org/052czxv31
+    baseURL: https://api.ror.org/v2/organizations/052czxv31
+    tags: [ ROR, Registry, Persistent Identifiers, Organization Identifier ]
+  - aid: massey:ebsco-discover
+    name: Discover — EBSCO Discovery Service (Massey tenancy)
+    x-operator: tenant
+    x-operator-evidence: >-
+      research.ebsco.com is EBSCO's generic host, shared by every EBSCO customer. The
+      customer scope /c/4egzpd is Massey's and is the link Massey's own library pages send
+      students to. The contract is EBSCO's; the tenancy is Massey's.
+    description: >-
+      "Discover" is Massey University Library's discovery layer, an EBSCO Discovery Service
+      tenancy under customer scope 4egzpd, selected by the library in 2012. It searches the
+      library catalogue and subscribed databases from one box. No institution-operated API
+      sits in front of it and EBSCO's own contract is not saved here. The customer-scoped URL
+      returned HTTP 400 to a bare automated request on 2026-09-01; the Massey page that
+      publishes it is live.
+    humanURL: https://www.massey.ac.nz/study/library/how-to-find-information-and-resources/using-discover-to-get-started/
+    baseURL: https://research.ebsco.com/c/4egzpd/search
+    tags: [ Library, Discovery, EBSCO, Vendor Platform, Tenant ]
+  - aid: massey:libcal
+    name: Massey Library Hours & Bookings — Springshare LibCal (Massey tenancy)
+    x-operator: tenant
+    x-operator-evidence: >-
+      massey.libcal.com is an institution-specific subdomain CNAMEd to region-au.libcal.com,
+      Springshare's Australian region host. The contract and the platform are Springshare's.
+    description: >-
+      Massey University Library's opening hours, room bookings and events run on a Springshare
+      LibCal tenancy. LibCal exposes a REST API at /api/1.1/ which returned HTTP 403 without
+      credentials on 2026-09-01 - a real, authenticated API surface, but Springshare's
+      contract, not Massey's. Recorded as a tenancy.
+    humanURL: https://massey.libcal.com/hours
+    baseURL: https://massey.libcal.com/api/1.1
+    tags: [ Library, Room Booking, Opening Hours, Springshare, Vendor Platform, Tenant ]
+  - aid: massey:libanswers
+    name: Massey Library Enquiries — Springshare LibAnswers (Massey tenancy)
+    x-operator: tenant
+    x-operator-evidence: >-
+      massey.libanswers.com is an institution-specific subdomain on Springshare's LibAnswers
+      platform.
+    description: >-
+      Massey University Library's public enquiry and FAQ service, running on a Springshare
+      LibAnswers tenancy. Verified live 2026-09-01. Springshare's contract, Massey's tenancy
+      and Massey's content.
+    humanURL: https://massey.libanswers.com/
+    tags: [ Library, Support, FAQ, Springshare, Vendor Platform, Tenant ]
 common:
-  - type: DomainSecurity
-    url: security/massey-domain-security.yml
   - type: Website
     url: https://www.massey.ac.nz/
+  - type: Documentation
+    url: https://www.massey.ac.nz/api/v1/
+  - type: APIReference
+    url: https://www.massey.ac.nz/api/v1/
+  - type: ResearchRepository
+    url: https://mro.massey.ac.nz/
+  - type: IdentityFederation
+    url: https://idp.massey.ac.nz/idp/shibboleth
+  - type: LibraryCatalog
+    url: https://www.massey.ac.nz/study/library/how-to-find-information-and-resources/using-discover-to-get-started/
+  - type: AIPolicy
+    url: https://www.massey.ac.nz/study/study-and-assignment-support-and-guides/academic-integrity-student-guide/artificial-intelligence-ai-usage-and-detection/
+  - type: GitHubOrganization
+    url: https://github.com/Massey-Uni
+  - type: TermsOfService
+    url: https://www.massey.ac.nz/about/policies-procedures-and-guidelines/
+  - type: PrivacyPolicy
+    url: https://www.massey.ac.nz/privacy/
+  - type: Support
+    url: https://www.massey.ac.nz/about/contact-us/
+  - type: Blog
+    url: https://sites.massey.ac.nz/library/
+  - type: BlogRSS
+    url: https://sites.massey.ac.nz/library/feed/
+  - type: News
+    url: https://www.massey.ac.nz/about/news/
   - type: LinkedIn
     url: https://www.linkedin.com/school/massey-university/
+  - type: OpenAPI
+    url: openapi/massey-mapi-openapi.yml
+  - type: OpenAPI
+    url: openapi/massey-mro-dspace-openapi.yml
+  - type: JSONSchema
+    url: json-schema/massey-mapi-envelope.json
+  - type: JSONSchema
+    url: json-schema/massey-mro-dspace-root.json
+  - type: Authentication
+    url: authentication/massey-authentication.yml
+  - type: Errors
+    url: errors/massey-errors.yml
+  - type: Conformance
+    url: conformance/massey-conformance.yml
+  - type: Vocabulary
+    url: vocabulary/massey-vocabulary.yml
+  - type: Lifecycle
+    url: lifecycle/massey-lifecycle.yml
+  - type: Rules
+    url: rules/massey-openapi-rules.yml
+  - type: JSONLD
+    url: json-ld/massey-context.jsonld
+  - type: DomainSecurity
+    url: security/massey-domain-security.yml
   - type: Plans
     url: plans/massey-plans-pricing.yml
   - type: RateLimits
