@@ -145,6 +145,13 @@ apis:
   - SAML
   - Tuakiri
   - eduGAIN
+  - SSO
+  tags_raw:
+  - Identity Federation
+  - Shibboleth
+  - SAML
+  - Tuakiri
+  - eduGAIN
   - Single Sign-On
   properties:
   - type: Examples
@@ -166,6 +173,12 @@ apis:
   humanURL: https://www.massey.ac.nz/
   baseURL: https://login.microsoftonline.com/massey.ac.nz/v2.0/.well-known/openid-configuration
   tags:
+  - Identity Federation
+  - OpenID Connect
+  - Authentication
+  - Entra ID
+  - SSO
+  tags_raw:
   - Identity Federation
   - OpenID Connect
   - OAuth
@@ -253,6 +266,12 @@ apis:
   - Discovery
   - EBSCO
   - Vendor Platform
+  - Tenants
+  tags_raw:
+  - Library
+  - Discovery
+  - EBSCO
+  - Vendor Platform
   - Tenant
 - aid: massey:libcal
   name: Massey Library Hours & Bookings — Springshare LibCal (Massey tenancy)
@@ -271,6 +290,13 @@ apis:
   - Opening Hours
   - Springshare
   - Vendor Platform
+  - Tenants
+  tags_raw:
+  - Library
+  - Room Booking
+  - Opening Hours
+  - Springshare
+  - Vendor Platform
   - Tenant
 - aid: massey:libanswers
   name: Massey Library Enquiries — Springshare LibAnswers (Massey tenancy)
@@ -281,6 +307,13 @@ apis:
     tenancy. Verified live 2026-09-01. Springshare's contract, Massey's tenancy and Massey's content.
   humanURL: https://massey.libanswers.com/
   tags:
+  - Library
+  - Support
+  - FAQ
+  - Springshare
+  - Vendor Platform
+  - Tenants
+  tags_raw:
   - Library
   - Support
   - FAQ
