@@ -1,0 +1,171 @@
+openapi: 3.2.0
+info:
+  title: Massey University M-API (WebService API v1) News API
+  version: '1.0'
+  summary: Massey University's own news, events and staff-directory web service.
+  description: The M-API is Massey University's institution-operated web service, described by the university as "an effort to surface frequently requested data for use in Massey websites and Massey applications".
+  contact:
+    name: Massey University IT Services
+    url: https://www.massey.ac.nz/about/contact-us/
+  termsOfService: https://www.massey.ac.nz/about/policies-procedures-and-guidelines/
+servers:
+- url: https://www.massey.ac.nz/api/v1
+  description: Massey University M-API v1 (production, API-key gated)
+security:
+- ApiKeyQuery: []
+tags:
+- name: News
+  description: Massey news system data.
+paths:
+  /massey.cfc:
+    get:
+      operationId: getMasseyResource
+      summary: Retrieve a Massey data collection
+      description: Single data-retrieval entry point. The resource is selected with the `path` query parameter; filtering and ordering are expressed through the `args` parameter as semicolon-separated `key:value` pairs. Only the `get` method is permitted.
+      tags:
+      - News
+      parameters:
+      - name: apikey
+        in: query
+        required: true
+        description: Required API key. Massey states applications for new keys are not yet publicly available. A key is issued by the university, not self-service.
+        schema:
+          type: string
+      - name: method
+        in: query
+        required: true
+        description: Only `get` is permitted in v1.
+        schema:
+          type: string
+          enum:
+          - get
+      - name: format
+        in: query
+        required: false
+        description: Response serialization. Defaults to `xml`.
+        schema:
+          type: string
+          enum:
+          - xml
+          - json
+          default: xml
+      - name: path
+        in: query
+        required: true
+        description: The resource path to retrieve.
+        schema:
+          type: string
+          enum:
+          - news/articles
+          - news/types
+          - news/categories
+          - events/events
+          - events/types
+          - events/categories
+          - people/people
+      - name: args
+        in: query
+        required: false
+        description: Semicolon-separated `key:value` pairs used to order and filter results, e.g. `limit:5;order_dir:DESC`. Multi-valued arguments use comma separation. Documented arguments for `news/articles` are uuid, slug, type_uuid, from_date, to_date, categories, fields, search_term, order_by, order_dir and limit (limit defaults to 20).
+        schema:
+          type: string
+        example: limit:2;order_dir:DESC
+      responses:
+        '200':
+          description: Always 200. Success and failure are both signalled in the body via the `status` boolean and the `message` string — the M-API does not use HTTP status codes to express application errors.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MApiEnvelope'
+              examples:
+                invalidKey:
+                  summary: Request with no or invalid API key (observed 2026-09-01)
+                  value:
+                    message: Invalid api key
+                    status: false
+                    data: ''
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/MApiEnvelope'
+components:
+  schemas:
+    MApiEnvelope:
+      type: object
+      description: Common M-API response envelope.
+      properties:
+        message:
+          type: string
+          description: Error or status message. Empty string on success.
+        status:
+          type: boolean
+          description: True when the request succeeded.
+        result:
+          type: array
+          description: Result rows, present on success.
+          items:
+            $ref: '#/components/schemas/NewsArticle'
+        data:
+          description: Present and empty on failure.
+      required:
+      - message
+      - status
+    NewsArticle:
+      type: object
+      description: News article record. Fields are the ones Massey's documentation lists as valid return fields for `news/articles`.
+      properties:
+        uuid:
+          type: string
+          description: Article identifier (GUID).
+        type_uuid:
+          type: string
+          description: Article type identifier (GUID).
+        type:
+          type: string
+          description: Human-readable article type
+          e.g. "University News".: null
+        title:
+          type: string
+        slug:
+          type: string
+        summary:
+          type: string
+        body:
+          type: string
+          description: Full article body. Not returned unless requested via `fields`.
+        thumbnail:
+          type: string
+        image:
+          type: string
+          description: Not returned unless requested via `fields`.
+        created:
+          type: string
+          description: Creation timestamp, e.g. "March, 23 2020 16:03:48 +1300".
+        modified:
+          type: string
+        released:
+          type: string
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: apikey
+      description: API key passed as a query parameter. Massey University issues keys; the documentation states public application for keys is not yet available.
+x-operator: institution
+x-operator-evidence: Host www.massey.ac.nz is under Massey University's own registrable domain massey.ac.nz (ROR https://ror.org/052czxv31 declares domain massey.ac.nz). The documentation page is served by the university's own site.
+x-provenance:
+  generated: '2026-09-01'
+  method: derived
+  acquisition: derived
+  source:
+  - https://www.massey.ac.nz/api/v1/
+  - https://api.massey.ac.nz/
+  evidence:
+  - url: https://www.massey.ac.nz/api/v1/
+    status: 200
+    note: published M-API v1 documentation, parameter tables and field lists
+  - url: https://www.massey.ac.nz/api/v1/massey.cfc?method=get&path=news/articles&args=limit:2
+    status: 200
+    note: service live; returns <message>Invalid api key</message><status>false</status> without a key
+  - url: https://api.massey.ac.nz/
+    status: 200
+    note: v1_2 landing page states "This is a legacy API service and is no longer available."

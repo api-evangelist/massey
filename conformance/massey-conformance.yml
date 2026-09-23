@@ -1,0 +1,113 @@
+specification: API Evangelist Conformance
+specificationVersion: '0.1'
+provider: Massey University
+providerId: massey
+regime: education
+generated: '2026-09-01'
+method: derived
+acquisition: probed
+source: live probes of Massey University hosts and of the registries Massey is registered in
+description: >-
+  Domain-standard conformance for Massey University, read from the contracts and metadata
+  documents themselves rather than from prose claims. Targets are the `education` regime
+  standards[] in the Kin Score rubric. Reward-only: standards not evidenced below are absent
+  from this file rather than recorded as failures.
+standards:
+  - id: oai-pmh
+    name: OAI-PMH 2.0
+    status: conformant
+    operator: institution
+    evidence:
+      - url: https://mro.massey.ac.nz/server/oai/request?verb=Identify
+        status: 200
+        location: 'OAI-PMH/Identify/protocolVersion = 2.0'
+        note: >-
+          repositoryName "Massey Research Online", baseURL
+          https://mro.massey.ac.nz/server/oai/request, adminEmail LibIT@massey.ac.nz,
+          granularity YYYY-MM-DDThh:mm:ssZ, deletedRecord transient, oai-identifier scheme
+          "oai" with repositoryIdentifier "mro.massey.ac.nz".
+      - url: https://mro.massey.ac.nz/server/oai/request?verb=ListMetadataFormats
+        status: 200
+        location: 'OAI-PMH/ListMetadataFormats/metadataFormat/metadataPrefix'
+        note: >-
+          13 formats offered: didl, mods, ore, mets, xoai, dim, rioxx, uketd_dc, qdc,
+          oai_dc, rdf, marc, etdms.
+    contract: openapi/massey-mro-dspace-openapi.yml
+  - id: shibboleth
+    name: Shibboleth Identity Provider
+    status: conformant
+    operator: federation
+    evidence:
+      - url: https://idp.massey.ac.nz/idp/shibboleth
+        status: 200
+        location: 'EntityDescriptor/@entityID = https://idp.massey.ac.nz/idp/shibboleth'
+        note: >-
+          IDPSSODescriptor advertises urn:mace:shibboleth:1.0 alongside SAML 1.1 and SAML 2.0;
+          shibmd:Scope = massey.ac.nz; mdui:DisplayName = "Massey University IdP"; an
+          AttributeAuthorityDescriptor is present.
+  - id: saml
+    name: SAML 2.0 Web Browser SSO
+    status: conformant
+    operator: federation
+    evidence:
+      - url: https://idp.massey.ac.nz/idp/shibboleth
+        status: 200
+        location: 'IDPSSODescriptor/@protocolSupportEnumeration contains urn:oasis:names:tc:SAML:2.0:protocol'
+        note: >-
+          SingleSignOnService bindings HTTP-POST, HTTP-POST-SimpleSign and HTTP-Redirect at
+          https://idp.massey.ac.nz/idp/profile/SAML2/...; SingleLogoutService bindings
+          HTTP-Redirect, HTTP-POST, HTTP-POST-SimpleSign and SOAP.
+      - url: https://met.refeds.org/met/entity/https%3A%2F%2Fidp.massey.ac.nz%2Fidp%2Fshibboleth/
+        status: 200
+        location: 'REFEDS Metadata Explorer Tool entity record'
+        note: >-
+          The entity is published in eduGAIN and in the Tuakiri Federation (the New Zealand
+          Access Federation), retrieved 2026-09-01.
+  - id: datacite
+    name: DataCite DOI registration
+    status: conformant
+    operator: registry
+    evidence:
+      - url: https://api.datacite.org/providers/massey
+        status: 200
+        location: 'data.attributes.symbol = MASSEY'
+        note: >-
+          memberType consortium_organization, country NZ, region APAC, rorId
+          https://ror.org/052czxv31. Parent consortium DOINZCO (DataCite New Zealand).
+      - url: https://api.datacite.org/clients?query=massey
+        status: 200
+        location: 'data[].id'
+        note: >-
+          Two active repositories - massey.eqpliw "Pātaka Rangahau Massey Research Online"
+          (prefix 10.82921, url https://mro.massey.ac.nz/home) and massey.cgeajo
+          "Massey University Library Ebooks" / OERs (prefix 10.82376).
+  - id: crossref
+    name: Crossref DOI registration
+    status: conformant
+    operator: registry
+    evidence:
+      - url: https://api.crossref.org/members?query=massey
+        status: 200
+        location: 'message.items[].id = 12895'
+        note: >-
+          Member 12895 "Massey University", prefixes 10.33217 and 10.54322, 314 DOIs
+          (22 current, 292 backfile). A second member, 22782 "Centre for Defence and
+          Security Studies, Massey University", holds prefix 10.36878 with 88 DOIs.
+not_evidenced:
+  - id: orcid
+    note: >-
+      Massey is plausibly a member of the New Zealand ORCID Consortium (Royal Society Te
+      Apārangi), but royalsociety.org.nz returned 403 to every probe on 2026-09-01 and no
+      Massey-hosted ORCID integration surface was found. Not recorded as conformance.
+  - id: lti
+    note: No public LTI platform or tool registration surface found.
+  - id: scim
+    note: No public SCIM endpoint found.
+  - id: oneroster
+    note: Not applicable / not found.
+  - id: ed-fi
+    note: Not applicable in New Zealand.
+  - id: caliper
+    note: No public Caliper endpoint found.
+  - id: qti
+    note: No public QTI surface found.

@@ -1,0 +1,171 @@
+openapi: 3.2.0
+info:
+  title: Massey Research Online (Pātaka Rangahau) REST Discovery API
+  version: '8.3'
+  summary: Read interface to Massey University's institutional research repository, self-hosted on mro.massey.ac.nz.
+  description: Massey Research Online / Pātaka Rangahau is Massey University's institutional repository of theses, dissertations and research outputs.
+  contact:
+    name: Massey University Library IT
+    email: LibIT@massey.ac.nz
+    url: https://mro.massey.ac.nz/
+  termsOfService: https://www.massey.ac.nz/about/policies-procedures-and-guidelines/
+servers:
+- url: https://mro.massey.ac.nz/server
+  description: Massey Research Online production DSpace backend
+tags:
+- name: Discovery
+  description: Search and browse indexes.
+paths:
+  /api/discover/search/objects:
+    get:
+      operationId: searchObjects
+      summary: Discovery search across repository objects
+      description: Advertised in the HAL root as `search`. Not independently confirmed with a 2xx during this run — the host intermittently dropped TLS connections on query-bearing requests (curl exit 35). Recorded from the root link index, not from a successful probe.
+      tags:
+      - Discovery
+      parameters:
+      - name: query
+        in: query
+        schema:
+          type: string
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/Size'
+      responses:
+        '200':
+          description: Discovery result set.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PagedHal'
+  /oai/request:
+    get:
+      operationId: oaiRequest
+      summary: OAI-PMH 2.0 metadata harvesting endpoint
+      description: Standards-based OAI-PMH 2.0 interface. Verified 200 on 2026-09-01; Identify returns repositoryName "Massey Research Online", repositoryIdentifier "mro.massey.ac.nz", adminEmail LibIT@massey.ac.nz, granularity YYYY-MM-DDThh:mm:ssZ, deletedRecord "transient".
+      tags:
+      - Discovery
+      parameters:
+      - name: verb
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - Identify
+          - ListMetadataFormats
+          - ListSets
+          - ListIdentifiers
+          - ListRecords
+          - GetRecord
+      - name: metadataPrefix
+        in: query
+        description: 'Supported prefixes verified on 2026-09-01: didl, mods, ore, mets, xoai, dim, rioxx, uketd_dc, qdc, oai_dc, rdf, marc, etdms.'
+        schema:
+          type: string
+          enum:
+          - didl
+          - mods
+          - ore
+          - mets
+          - xoai
+          - dim
+          - rioxx
+          - uketd_dc
+          - qdc
+          - oai_dc
+          - rdf
+          - marc
+          - etdms
+      - name: identifier
+        in: query
+        schema:
+          type: string
+        example: oai:mro.massey.ac.nz:10179/1234
+      - name: set
+        in: query
+        schema:
+          type: string
+      - name: from
+        in: query
+        schema:
+          type: string
+      - name: until
+        in: query
+        schema:
+          type: string
+      - name: resumptionToken
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OAI-PMH response envelope (application/xml). Protocol errors are also returned as 200 with an <error> element.
+          content:
+            text/xml:
+              schema:
+                type: string
+components:
+  parameters:
+    Size:
+      name: size
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 20
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+  schemas:
+    PagedHal:
+      type: object
+      properties:
+        _embedded:
+          type: object
+        _links:
+          type: object
+        page:
+          type: object
+          properties:
+            size:
+              type: integer
+            totalElements:
+              type: integer
+            totalPages:
+              type: integer
+            number:
+              type: integer
+x-operator: institution
+x-operator-evidence: mro.massey.ac.nz resolves to 130.123.100.10 inside Massey University's own network and sits under the institution's registrable domain massey.ac.nz. The OAI-PMH Identify response names repositoryIdentifier "mro.massey.ac.nz" and adminEmail LibIT@massey.ac.nz.
+x-software:
+  name: DSpace
+  version: '8.3'
+  vendor: LYRASIS / DSpace community
+  license: open source (BSD)
+  note: Self-hosted open-source software, not a vendor SaaS tenancy. The contract shape is shared with every DSpace 8 installation; the deployment and its content are the institution's.
+x-provenance:
+  generated: '2026-09-01'
+  method: derived
+  acquisition: probed
+  source:
+  - https://mro.massey.ac.nz/server/api
+  evidence:
+  - url: https://mro.massey.ac.nz/server/api
+    status: 200
+    note: HAL root; dspaceName "Massey Research Online", dspaceVersion "DSpace 8.3"
+  - url: https://mro.massey.ac.nz/server/api/core/communities
+    status: 200
+    note: 19 communities returned
+  - url: https://mro.massey.ac.nz/server/api/core/collections
+    status: 200
+  - url: https://mro.massey.ac.nz/server/api/core/items
+    status: 401
+    note: Authentication is required
+  - url: https://mro.massey.ac.nz/server/api/core/bitstreams
+    status: 401
+  - url: https://mro.massey.ac.nz/server/api/config/properties
+    status: 405

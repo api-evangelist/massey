@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/massey/refs/heads/main/json-schema/massey-mro-dspace-root.json",
+  "title": "Massey Research Online Repository Root",
+  "description": "HAL root document returned by the Massey Research Online DSpace 8.3 REST backend at https://mro.massey.ac.nz/server/api. The shape is DSpace's; the values are Massey's deployment.",
+  "x-provenance": {
+    "generated": "2026-09-01",
+    "method": "probed",
+    "source": "https://mro.massey.ac.nz/server/api"
+  },
+  "type": "object",
+  "required": ["dspaceName", "dspaceServer", "dspaceVersion", "type"],
+  "properties": {
+    "dspaceUI": { "type": "string", "format": "uri", "const": "https://mro.massey.ac.nz" },
+    "dspaceName": { "type": "string", "const": "Massey Research Online" },
+    "dspaceServer": { "type": "string", "format": "uri", "const": "https://mro.massey.ac.nz/server" },
+    "dspaceVersion": { "type": "string", "description": "Observed 2026-09-01: 'DSpace 8.3'." },
+    "type": { "type": "string", "const": "root" },
+    "_links": { "type": "object", "description": "HAL link index of every endpoint this deployment exposes." }
+  },
+  "additionalProperties": true
+}

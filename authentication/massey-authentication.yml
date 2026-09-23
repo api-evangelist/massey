@@ -1,0 +1,100 @@
+specification: API Commons Authentication
+specificationVersion: '0.1'
+provider: Massey University
+providerId: massey
+generated: '2026-09-01'
+method: derived
+acquisition: probed
+source: live probes plus Massey University's own published M-API documentation
+description: >-
+  How each Massey University surface authenticates. Every entry carries the operator of the
+  thing being authenticated against, because for a university most identity surfaces are
+  either the institution's own federation endpoints or a vendor's login.
+surfaces:
+  - id: massey:mapi-v1
+    name: M-API WebService API v1
+    operator: institution
+    scheme: apiKey
+    location: query
+    parameter: apikey
+    self_service: false
+    notes: >-
+      Massey's documentation states "M-API V1 only work with a valid api key. You will need
+      to apply for one to use this api. Applications for new apikeys is not yet publicly
+      available." A demonstration key is printed on the docs page for the page's own
+      examples and is described as returning cached, non-accurate data and not available for
+      production use. Failure is signalled in the body, not the HTTP status: a keyless
+      request returns HTTP 200 with `status: false` and `message: "Invalid api key"`.
+    evidence:
+      - url: https://www.massey.ac.nz/api/v1/
+        status: 200
+      - url: https://www.massey.ac.nz/api/v1/massey.cfc?method=get&path=news/articles&args=limit:2
+        status: 200
+  - id: massey:mro-rest
+    name: Massey Research Online DSpace REST API
+    operator: institution
+    scheme: mixed
+    self_service: false
+    notes: >-
+      Anonymous read is permitted on the repository root, communities and collections.
+      Item and bitstream listings require authentication - both returned HTTP 401
+      "Authentication is required" on 2026-09-01. DSpace 8 authenticates via
+      /server/api/authn (password, and typically Shibboleth on an institutional
+      deployment); no public account registration surface was found.
+    evidence:
+      - url: https://mro.massey.ac.nz/server/api/core/communities
+        status: 200
+      - url: https://mro.massey.ac.nz/server/api/core/items
+        status: 401
+      - url: https://mro.massey.ac.nz/server/api/core/bitstreams
+        status: 401
+  - id: massey:mro-oai-pmh
+    name: Massey Research Online OAI-PMH
+    operator: institution
+    scheme: none
+    self_service: true
+    notes: Fully anonymous. No key, no registration, no quota published.
+    evidence:
+      - url: https://mro.massey.ac.nz/server/oai/request?verb=Identify
+        status: 200
+  - id: massey:idp-shibboleth
+    name: Massey University Shibboleth Identity Provider
+    operator: federation
+    scheme: saml2
+    entity_id: https://idp.massey.ac.nz/idp/shibboleth
+    scope: massey.ac.nz
+    federations: [Tuakiri Federation, eduGAIN]
+    self_service: false
+    notes: >-
+      The institution's own SAML 2.0 / Shibboleth IdP. Service providers federate with it
+      through Tuakiri (the New Zealand Access Federation) and, internationally, eduGAIN. The
+      metadata document itself is public and machine-readable; the authentication it fronts
+      is for Massey affiliates only.
+    endpoints:
+      metadata: https://idp.massey.ac.nz/idp/shibboleth
+      sso_redirect: https://idp.massey.ac.nz/idp/profile/SAML2/Redirect/SSO
+      sso_post: https://idp.massey.ac.nz/idp/profile/SAML2/POST/SSO
+      slo_redirect: https://idp.massey.ac.nz/idp/profile/SAML2/Redirect/SLO
+    evidence:
+      - url: https://idp.massey.ac.nz/idp/shibboleth
+        status: 200
+  - id: massey:entra-id
+    name: Massey University Microsoft Entra ID tenant
+    operator: federation
+    scheme: oidc
+    tenant_id: 388728e1-bbd0-4378-98dc-f8682e644300
+    self_service: false
+    notes: >-
+      Massey operates a Microsoft Entra ID tenant discoverable by domain. The OpenID Connect
+      discovery document is public and machine-readable and is the institution's own
+      identity surface; the accounts behind it are staff and student accounts. Region scope
+      "OC" (Oceania).
+    endpoints:
+      discovery: https://login.microsoftonline.com/massey.ac.nz/v2.0/.well-known/openid-configuration
+      issuer: https://login.microsoftonline.com/388728e1-bbd0-4378-98dc-f8682e644300/v2.0
+      authorization: https://login.microsoftonline.com/388728e1-bbd0-4378-98dc-f8682e644300/oauth2/v2.0/authorize
+      token: https://login.microsoftonline.com/388728e1-bbd0-4378-98dc-f8682e644300/oauth2/v2.0/token
+      jwks: https://login.microsoftonline.com/388728e1-bbd0-4378-98dc-f8682e644300/discovery/v2.0/keys
+    evidence:
+      - url: https://login.microsoftonline.com/massey.ac.nz/v2.0/.well-known/openid-configuration
+        status: 200

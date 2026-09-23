@@ -1,0 +1,32 @@
+{
+  "provider": "massey",
+  "sources": [
+    "_original/massey-mapi-openapi.yml",
+    "_original/massey-mro-dspace-openapi.yml"
+  ],
+  "outputs": [
+    "massey-news-api-openapi.yml",
+    "massey-core-api-openapi.yml",
+    "massey-discovery-api-openapi.yml",
+    "massey-root-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "2 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "massey-mapi-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "massey-mapi-openapi.yml: multi-axis tagging (3 tags, 1 first tags, 3.00x duplication over 1 operations) \u2014 split on first tag, 1 operations narrowed",
+    "massey-mro-dspace-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/massey-mro-dspace-openapi_2.yml: archived document superseded by a larger archived document",
+    "_original/massey-mapi-openapi_2.yml: archived document superseded by a larger archived document",
+    "massey-core-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "massey-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "massey-news-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "massey-root-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

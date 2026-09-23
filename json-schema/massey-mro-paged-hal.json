@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/massey/refs/heads/main/json-schema/massey-mro-paged-hal.json",
+  "title": "Massey Research Online Paged HAL Collection",
+  "description": "Paged HAL collection envelope returned by the Massey Research Online DSpace REST backend for communities and collections.",
+  "x-provenance": {
+    "generated": "2026-09-01",
+    "method": "probed",
+    "source": "https://mro.massey.ac.nz/server/api/core/communities?size=2"
+  },
+  "type": "object",
+  "required": ["page"],
+  "properties": {
+    "_embedded": { "type": "object", "description": "Keyed by resource type, e.g. 'communities' or 'collections'." },
+    "_links": { "type": "object" },
+    "page": {
+      "type": "object",
+      "required": ["size", "totalElements", "totalPages", "number"],
+      "properties": {
+        "size": { "type": "integer" },
+        "totalElements": { "type": "integer", "description": "Observed 2026-09-01: 19 communities." },
+        "totalPages": { "type": "integer" },
+        "number": { "type": "integer" }
+      }
+    }
+  },
+  "additionalProperties": true
+}

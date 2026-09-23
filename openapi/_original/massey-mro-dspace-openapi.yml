@@ -1,0 +1,269 @@
+openapi: 3.1.0
+info:
+  title: Massey Research Online (Pātaka Rangahau) REST API
+  version: '8.3'
+  summary: >-
+    Read interface to Massey University's institutional research repository, self-hosted on
+    mro.massey.ac.nz.
+  description: >-
+    Massey Research Online / Pātaka Rangahau is Massey University's institutional repository
+    of theses, dissertations and research outputs. It runs DSpace 8.3 on the university's own
+    host, mro.massey.ac.nz, and exposes a HAL/JSON REST interface at /server/api alongside an
+    OAI-PMH 2.0 endpoint at /server/oai/request.
+
+    Operator note: the repository SOFTWARE is DSpace, an open-source product of LYRASIS/the
+    DSpace community, and the shape of this interface is DSpace's, not Massey's. The
+    DEPLOYMENT is Massey's — their host, their content, their DOI prefix (10.82921, registered
+    to DataCite repository massey.eqpliw). This document describes only the operations
+    API Evangelist probed against Massey's deployment; it is not the DSpace project's own
+    contract and must not be scored as Massey-authored engineering.
+  contact:
+    name: Massey University Library IT
+    email: LibIT@massey.ac.nz
+    url: https://mro.massey.ac.nz/
+  termsOfService: https://www.massey.ac.nz/about/policies-procedures-and-guidelines/
+x-operator: institution
+x-operator-evidence: >-
+  mro.massey.ac.nz resolves to 130.123.100.10 inside Massey University's own network and sits
+  under the institution's registrable domain massey.ac.nz. The OAI-PMH Identify response names
+  repositoryIdentifier "mro.massey.ac.nz" and adminEmail LibIT@massey.ac.nz.
+x-software:
+  name: DSpace
+  version: '8.3'
+  vendor: LYRASIS / DSpace community
+  license: open source (BSD)
+  note: >-
+    Self-hosted open-source software, not a vendor SaaS tenancy. The contract shape is shared
+    with every DSpace 8 installation; the deployment and its content are the institution's.
+x-provenance:
+  generated: '2026-09-01'
+  method: derived
+  acquisition: probed
+  source:
+    - https://mro.massey.ac.nz/server/api
+  evidence:
+    - url: https://mro.massey.ac.nz/server/api
+      status: 200
+      note: 'HAL root; dspaceName "Massey Research Online", dspaceVersion "DSpace 8.3"'
+    - url: https://mro.massey.ac.nz/server/api/core/communities
+      status: 200
+      note: 19 communities returned
+    - url: https://mro.massey.ac.nz/server/api/core/collections
+      status: 200
+    - url: https://mro.massey.ac.nz/server/api/core/items
+      status: 401
+      note: 'Authentication is required'
+    - url: https://mro.massey.ac.nz/server/api/core/bitstreams
+      status: 401
+    - url: https://mro.massey.ac.nz/server/api/config/properties
+      status: 405
+servers:
+  - url: https://mro.massey.ac.nz/server
+    description: Massey Research Online production DSpace backend
+tags:
+  - name: Root
+  - name: Core
+    description: Communities, collections, items and bitstreams.
+  - name: Discovery
+    description: Search and browse indexes.
+paths:
+  /api:
+    get:
+      operationId: getRoot
+      summary: Repository root / HAL link index
+      description: >-
+        Returns repository identity and the full HAL `_links` index of available endpoints.
+        Verified 200 on 2026-09-01.
+      tags: [Root]
+      responses:
+        '200':
+          description: Repository root document.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepositoryRoot'
+              examples:
+                massey:
+                  value:
+                    dspaceUI: https://mro.massey.ac.nz
+                    dspaceName: Massey Research Online
+                    dspaceServer: https://mro.massey.ac.nz/server
+                    dspaceVersion: DSpace 8.3
+                    type: root
+  /api/core/communities:
+    get:
+      operationId: listCommunities
+      summary: List top-level and sub communities
+      description: Public. Verified 200 on 2026-09-01; 19 communities in the repository.
+      tags: [Core]
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Size'
+      responses:
+        '200':
+          description: Paged HAL collection of communities.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PagedHal'
+  /api/core/collections:
+    get:
+      operationId: listCollections
+      summary: List collections
+      description: Public. Verified 200 on 2026-09-01.
+      tags: [Core]
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Size'
+      responses:
+        '200':
+          description: Paged HAL collection of collections.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PagedHal'
+  /api/core/items:
+    get:
+      operationId: listItems
+      summary: List items
+      description: >-
+        NOT public on this deployment. Verified 401 "Authentication is required" on
+        2026-09-01. Item metadata is reachable anonymously through the discovery search and
+        the OAI-PMH endpoint instead.
+      tags: [Core]
+      responses:
+        '401':
+          description: Authentication is required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/core/bitstreams:
+    get:
+      operationId: listBitstreams
+      summary: List bitstreams
+      description: NOT public on this deployment. Verified 401 on 2026-09-01.
+      tags: [Core]
+      responses:
+        '401':
+          description: Authentication is required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/discover/search/objects:
+    get:
+      operationId: searchObjects
+      summary: Discovery search across repository objects
+      description: >-
+        Advertised in the HAL root as `search`. Not independently confirmed with a 2xx during
+        this run — the host intermittently dropped TLS connections on query-bearing requests
+        (curl exit 35). Recorded from the root link index, not from a successful probe.
+      tags: [Discovery]
+      parameters:
+        - name: query
+          in: query
+          schema: { type: string }
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Size'
+      responses:
+        '200':
+          description: Discovery result set.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PagedHal'
+  /oai/request:
+    get:
+      operationId: oaiRequest
+      summary: OAI-PMH 2.0 metadata harvesting endpoint
+      description: >-
+        Standards-based OAI-PMH 2.0 interface. Verified 200 on 2026-09-01; Identify returns
+        repositoryName "Massey Research Online", repositoryIdentifier "mro.massey.ac.nz",
+        adminEmail LibIT@massey.ac.nz, granularity YYYY-MM-DDThh:mm:ssZ, deletedRecord
+        "transient".
+      tags: [Discovery]
+      parameters:
+        - name: verb
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [Identify, ListMetadataFormats, ListSets, ListIdentifiers, ListRecords, GetRecord]
+        - name: metadataPrefix
+          in: query
+          description: >-
+            Supported prefixes verified on 2026-09-01: didl, mods, ore, mets, xoai, dim,
+            rioxx, uketd_dc, qdc, oai_dc, rdf, marc, etdms.
+          schema:
+            type: string
+            enum: [didl, mods, ore, mets, xoai, dim, rioxx, uketd_dc, qdc, oai_dc, rdf, marc, etdms]
+        - name: identifier
+          in: query
+          schema: { type: string }
+          example: 'oai:mro.massey.ac.nz:10179/1234'
+        - name: set
+          in: query
+          schema: { type: string }
+        - name: from
+          in: query
+          schema: { type: string }
+        - name: until
+          in: query
+          schema: { type: string }
+        - name: resumptionToken
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: OAI-PMH response envelope (application/xml). Protocol errors are also returned as 200 with an <error> element.
+          content:
+            text/xml:
+              schema: { type: string }
+components:
+  parameters:
+    Page:
+      name: page
+      in: query
+      schema: { type: integer, minimum: 0, default: 0 }
+    Size:
+      name: size
+      in: query
+      schema: { type: integer, minimum: 1, default: 20 }
+  schemas:
+    RepositoryRoot:
+      type: object
+      properties:
+        dspaceUI: { type: string, format: uri }
+        dspaceName: { type: string }
+        dspaceServer: { type: string, format: uri }
+        dspaceVersion: { type: string }
+        type: { type: string }
+        _links: { type: object }
+    PagedHal:
+      type: object
+      properties:
+        _embedded: { type: object }
+        _links: { type: object }
+        page:
+          type: object
+          properties:
+            size: { type: integer }
+            totalElements: { type: integer }
+            totalPages: { type: integer }
+            number: { type: integer }
+    Error:
+      type: object
+      description: Spring-style error body observed on this deployment.
+      properties:
+        timestamp: { type: string }
+        status: { type: integer }
+        error: { type: string }
+        message: { type: string }
+        path: { type: string }
+      example:
+        timestamp: '2026-09-01T20:41:48.069+00:00'
+        status: 401
+        error: Unauthorized
+        message: Authentication is required
+        path: /server/api/core/items

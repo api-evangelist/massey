@@ -1,0 +1,61 @@
+# method: generated
+# x-source-url: https://github.com/api-evangelist/massey
+# Spectral ruleset for Massey University's API Evangelist OpenAPI artifacts.
+# Provenance: generated 2026-09-01, method: generated, source: API Evangelist university pipeline.
+# Built-in Spectral functions only. This ruleset is API Evangelist's, not Massey University's.
+extends: []
+rules:
+  massey-operator-declared:
+    description: Every Massey OpenAPI must declare who operates the thing it describes.
+    message: 'info-level x-operator is required (institution | tenant | vendor | registry | federation)'
+    severity: error
+    given: $
+    then:
+      field: x-operator
+      function: truthy
+  massey-provenance-declared:
+    description: Every Massey OpenAPI must carry x-provenance with a method.
+    message: 'x-provenance.method is required - an unmarked artifact is credited to the institution'
+    severity: error
+    given: $.x-provenance
+    then:
+      field: method
+      function: truthy
+  massey-servers-institution-host:
+    description: Servers must be under a Massey-operated host.
+    message: 'server url must be on massey.ac.nz'
+    severity: error
+    given: $.servers[*]
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: '^https://[a-z0-9.-]*massey\.ac\.nz'
+  massey-info-contact:
+    description: Contact information must be present.
+    severity: warn
+    given: $.info
+    then:
+      field: contact
+      function: truthy
+  massey-operation-ids:
+    description: Every operation needs an operationId.
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: operationId
+      function: truthy
+  massey-operation-described:
+    description: Every operation needs a description recording what was actually probed.
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: description
+      function: truthy
+  massey-security-declared:
+    description: A gated surface must declare a security scheme.
+    severity: warn
+    given: $.components
+    then:
+      field: securitySchemes
+      function: truthy

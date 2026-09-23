@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/massey/refs/heads/main/json-schema/massey-mapi-envelope.json",
+  "title": "Massey M-API Response Envelope",
+  "description": "Common response envelope for the Massey University M-API v1. The service returns HTTP 200 for both success and failure; clients must read the 'status' boolean.",
+  "x-provenance": {
+    "generated": "2026-09-01",
+    "method": "probed",
+    "source": "https://www.massey.ac.nz/api/v1/massey.cfc?method=get&path=news/articles&args=limit:2",
+    "note": "Failure shape observed live with no api key; success shape taken from the published documentation."
+  },
+  "type": "object",
+  "required": ["message", "status"],
+  "properties": {
+    "message": { "type": "string", "description": "Error or status message. Empty string on success. Observed value on failure: 'Invalid api key'." },
+    "status": { "type": "boolean", "description": "True when the request succeeded." },
+    "result": { "type": "array", "description": "Result rows, present on success.", "items": { "$ref": "massey-mapi-news-article.json" } },
+    "data": { "description": "Present and empty on failure." }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,88 @@
+openapi: 3.2.0
+info:
+  title: Massey Research Online (Pātaka Rangahau) REST Root API
+  version: '8.3'
+  summary: Read interface to Massey University's institutional research repository, self-hosted on mro.massey.ac.nz.
+  description: Massey Research Online / Pātaka Rangahau is Massey University's institutional repository of theses, dissertations and research outputs.
+  contact:
+    name: Massey University Library IT
+    email: LibIT@massey.ac.nz
+    url: https://mro.massey.ac.nz/
+  termsOfService: https://www.massey.ac.nz/about/policies-procedures-and-guidelines/
+servers:
+- url: https://mro.massey.ac.nz/server
+  description: Massey Research Online production DSpace backend
+tags:
+- name: Root
+paths:
+  /api:
+    get:
+      operationId: getRoot
+      summary: Repository root / HAL link index
+      description: Returns repository identity and the full HAL `_links` index of available endpoints. Verified 200 on 2026-09-01.
+      tags:
+      - Root
+      responses:
+        '200':
+          description: Repository root document.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepositoryRoot'
+              examples:
+                massey:
+                  value:
+                    dspaceUI: https://mro.massey.ac.nz
+                    dspaceName: Massey Research Online
+                    dspaceServer: https://mro.massey.ac.nz/server
+                    dspaceVersion: DSpace 8.3
+                    type: root
+components:
+  schemas:
+    RepositoryRoot:
+      type: object
+      properties:
+        dspaceUI:
+          type: string
+          format: uri
+        dspaceName:
+          type: string
+        dspaceServer:
+          type: string
+          format: uri
+        dspaceVersion:
+          type: string
+        type:
+          type: string
+        _links:
+          type: object
+x-operator: institution
+x-operator-evidence: mro.massey.ac.nz resolves to 130.123.100.10 inside Massey University's own network and sits under the institution's registrable domain massey.ac.nz. The OAI-PMH Identify response names repositoryIdentifier "mro.massey.ac.nz" and adminEmail LibIT@massey.ac.nz.
+x-software:
+  name: DSpace
+  version: '8.3'
+  vendor: LYRASIS / DSpace community
+  license: open source (BSD)
+  note: Self-hosted open-source software, not a vendor SaaS tenancy. The contract shape is shared with every DSpace 8 installation; the deployment and its content are the institution's.
+x-provenance:
+  generated: '2026-09-01'
+  method: derived
+  acquisition: probed
+  source:
+  - https://mro.massey.ac.nz/server/api
+  evidence:
+  - url: https://mro.massey.ac.nz/server/api
+    status: 200
+    note: HAL root; dspaceName "Massey Research Online", dspaceVersion "DSpace 8.3"
+  - url: https://mro.massey.ac.nz/server/api/core/communities
+    status: 200
+    note: 19 communities returned
+  - url: https://mro.massey.ac.nz/server/api/core/collections
+    status: 200
+  - url: https://mro.massey.ac.nz/server/api/core/items
+    status: 401
+    note: Authentication is required
+  - url: https://mro.massey.ac.nz/server/api/core/bitstreams
+    status: 401
+  - url: https://mro.massey.ac.nz/server/api/config/properties
+    status: 405

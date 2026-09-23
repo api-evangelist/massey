@@ -1,0 +1,69 @@
+specification: API Commons Vocabulary
+specificationVersion: '0.1'
+provider: Massey University
+providerId: massey
+generated: '2026-09-01'
+method: derived
+acquisition: probed
+source: >-
+  Terms read directly from Massey University's own live surfaces - the OAI-PMH Identify and
+  ListMetadataFormats responses, the DSpace HAL root, the M-API documentation page and the
+  Shibboleth IdP metadata.
+description: >-
+  The controlled terms an integrator actually needs to call Massey University's
+  institution-operated surfaces. Nothing here is invented; each term was observed on a live
+  response or on Massey's own published documentation.
+terms:
+  - term: oai:mro.massey.ac.nz
+    kind: identifier-scheme
+    definition: >-
+      OAI identifier namespace for Massey Research Online. Sample identifier
+      oai:mro.massey.ac.nz:10179/1234; the local part is a Handle under prefix 10179.
+    source: https://mro.massey.ac.nz/server/oai/request?verb=Identify
+  - term: '10179'
+    kind: handle-prefix
+    definition: Handle.net prefix used for Massey Research Online items, e.g. handle 10179/2645.
+    source: https://mro.massey.ac.nz/server/api/core/communities
+  - term: '10.82921'
+    kind: doi-prefix
+    definition: DataCite DOI prefix registered to repository massey.eqpliw, Pātaka Rangahau Massey Research Online.
+    source: https://api.datacite.org/clients?query=massey
+  - term: '10.82376'
+    kind: doi-prefix
+    definition: DataCite DOI prefix registered to repository massey.cgeajo, Massey University Library Ebooks / Open Educational Resources.
+    source: https://api.datacite.org/clients?query=massey
+  - term: '10.33217'
+    kind: doi-prefix
+    definition: Crossref DOI prefix of member 12895, Massey University.
+    source: https://api.crossref.org/members?query=massey
+  - term: '10.54322'
+    kind: doi-prefix
+    definition: Second Crossref DOI prefix of member 12895, Massey University.
+    source: https://api.crossref.org/members?query=massey
+  - term: '10.36878'
+    kind: doi-prefix
+    definition: Crossref DOI prefix of member 22782, Centre for Defence and Security Studies, Massey University.
+    source: https://api.crossref.org/members?query=massey
+  - term: massey.ac.nz
+    kind: saml-scope
+    definition: shibmd:Scope asserted by the Massey University Shibboleth IdP; the eduPerson scope for Massey affiliates.
+    source: https://idp.massey.ac.nz/idp/shibboleth
+metadata_formats:
+  description: OAI-PMH metadataPrefix values offered by Massey Research Online, verified 2026-09-01.
+  source: https://mro.massey.ac.nz/server/oai/request?verb=ListMetadataFormats
+  values: [didl, mods, ore, mets, xoai, dim, rioxx, uketd_dc, qdc, oai_dc, rdf, marc, etdms]
+repository_object_types:
+  description: DSpace object types exposed by the Massey Research Online HAL root.
+  source: https://mro.massey.ac.nz/server/api
+  values: [community, collection, item, bundle, bitstream, bitstreamformat, metadatafield, metadataschema]
+mapi_paths:
+  description: The `path` values the M-API v1 accepts, from Massey's own documentation.
+  source: https://www.massey.ac.nz/api/v1/
+  values:
+    - news/articles
+    - news/types
+    - news/categories
+    - events/events
+    - events/types
+    - events/categories
+    - people/people

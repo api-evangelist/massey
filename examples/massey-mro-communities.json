@@ -1,0 +1,143 @@
+{
+  "_provenance": {
+    "generated": "2026-09-01",
+    "method": "probed",
+    "source": "https://mro.massey.ac.nz/server/api/core/communities?size=2",
+    "status": 200,
+    "note": "Live anonymous response from Massey Research Online, truncated to two embedded communities."
+  },
+  "response": {
+    "_embedded": {
+      "communities": [
+        {
+          "id": "39a1d7c5-a24e-442e-bb39-e884a4ff9a7b",
+          "uuid": "39a1d7c5-a24e-442e-bb39-e884a4ff9a7b",
+          "name": "Doing Psychology: Manawatu Doctoral Research Symposium",
+          "handle": "10179/2645",
+          "metadata": {
+            "dc.identifier.uri": [
+              {
+                "value": "https://mro.massey.ac.nz/handle/10179/2645",
+                "language": null,
+                "authority": null,
+                "confidence": -1,
+                "place": 0
+              }
+            ],
+            "dc.rights": [
+              {
+                "value": "<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/3.0/\"><img alt=\"Creative Commons Licence\" style=\"border-width:0\" src=\"http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png\" /></a><br /><span xmlns:dct=\"http://purl.org/dc/terms/\" href=\"http://purl.org/dc/dcmitype/Text\" property=\"dct:title\" rel=\"dct:type\">Doing Psychology</span> by <a xmlns:cc=\"http://creativecommons.org/ns#\" href=\"http://hdl.handle.net/10179/1122\" property=\"cc:attributionName\" rel=\"cc:attributionURL\">Amanda Curnow</a> is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-nd/3.0/\">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License</a>.",
+                "language": null,
+                "authority": null,
+                "confidence": -1,
+                "place": 0
+              }
+            ],
+            "dc.title": [
+              {
+                "value": "Doing Psychology: Manawatu Doctoral Research Symposium",
+                "language": null,
+                "authority": null,
+                "confidence": -1,
+                "place": 0
+              }
+            ]
+          },
+          "archivedItemsCount": -1,
+          "type": "community",
+          "_links": {
+            "collections": {
+              "href": "https://mro.massey.ac.nz/server/api/core/communities/39a1d7c5-a24e-442e-bb39-e884a4ff9a7b/collections"
+            },
+            "logo": {
+              "href": "https://mro.massey.ac.nz/server/api/core/communities/39a1d7c5-a24e-442e-bb39-e884a4ff9a7b/logo"
+            },
+            "subcommunities": {
+              "href": "https://mro.massey.ac.nz/server/api/core/communities/39a1d7c5-a24e-442e-bb39-e884a4ff9a7b/subcommunities"
+            },
+            "parentCommunity": {
+              "href": "https://mro.massey.ac.nz/server/api/core/communities/39a1d7c5-a24e-442e-bb39-e884a4ff9a7b/parentCommunity"
+            },
+            "adminGroup": {
+              "href": "https://mro.massey.ac.nz/server/api/core/communities/39a1d7c5-a24e-442e-bb39-e884a4ff9a7b/adminGroup"
+            },
+            "self": {
+              "href": "https://mro.massey.ac.nz/server/api/core/communities/39a1d7c5-a24e-442e-bb39-e884a4ff9a7b"
+            }
+          }
+        },
+        {
+          "id": "e3d305ed-94c3-4267-bd02-c5fcc434d96c",
+          "uuid": "e3d305ed-94c3-4267-bd02-c5fcc434d96c",
+          "name": "Institute of Natural and Mathematical Sciences",
+          "handle": "10179/4224",
+          "metadata": {
+            "dc.identifier.uri": [
+              {
+                "value": "https://mro.massey.ac.nz/handle/10179/4224",
+                "language": null,
+                "authority": null,
+                "confidence": -1,
+                "place": 0
+              }
+            ],
+            "dc.title": [
+              {
+                "value": "Institute of Natural and Mathematical Sciences",
+                "language": null,
+                "authority": null,
+                "confidence": -1,
+                "place": 0
+              }
+            ]
+          },
+          "archivedItemsCount": -1,
+          "type": "community",
+          "_links": {
+            "collections": {
+              "href": "https://mro.massey.ac.nz/server/api/core/communities/e3d305ed-94c3-4267-bd02-c5fcc434d96c/collections"
+            },
+            "logo": {
+              "href": "https://mro.massey.ac.nz/server/api/core/communities/e3d305ed-94c3-4267-bd02-c5fcc434d96c/logo"
+            },
+            "subcommunities": {
+              "href": "https://mro.massey.ac.nz/server/api/core/communities/e3d305ed-94c3-4267-bd02-c5fcc434d96c/subcommunities"
+            },
+            "parentCommunity": {
+              "href": "https://mro.massey.ac.nz/server/api/core/communities/e3d305ed-94c3-4267-bd02-c5fcc434d96c/parentCommunity"
+            },
+            "adminGroup": {
+              "href": "https://mro.massey.ac.nz/server/api/core/communities/e3d305ed-94c3-4267-bd02-c5fcc434d96c/adminGroup"
+            },
+            "self": {
+              "href": "https://mro.massey.ac.nz/server/api/core/communities/e3d305ed-94c3-4267-bd02-c5fcc434d96c"
+            }
+          }
+        }
+      ]
+    },
+    "_links": {
+      "first": {
+        "href": "https://mro.massey.ac.nz/server/api/core/communities?page=0&size=2"
+      },
+      "self": {
+        "href": "https://mro.massey.ac.nz/server/api/core/communities?size=2"
+      },
+      "next": {
+        "href": "https://mro.massey.ac.nz/server/api/core/communities?page=1&size=2"
+      },
+      "last": {
+        "href": "https://mro.massey.ac.nz/server/api/core/communities?page=9&size=2"
+      },
+      "search": {
+        "href": "https://mro.massey.ac.nz/server/api/core/communities/search"
+      }
+    },
+    "page": {
+      "size": 2,
+      "totalElements": 19,
+      "totalPages": 10,
+      "number": 0
+    }
+  }
+}

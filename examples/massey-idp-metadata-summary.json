@@ -1,0 +1,31 @@
+{
+  "_provenance": {
+    "generated": "2026-09-01",
+    "method": "probed",
+    "source": "https://idp.massey.ac.nz/idp/shibboleth",
+    "status": 200,
+    "note": "Summary of the SAML 2.0 EntityDescriptor Massey University publishes for its own Shibboleth IdP. Signing/encryption certificates omitted."
+  },
+  "entityID": "https://idp.massey.ac.nz/idp/shibboleth",
+  "displayName": "Massey University IdP",
+  "scope": "massey.ac.nz",
+  "protocolSupport": [
+    "urn:oasis:names:tc:SAML:2.0:protocol",
+    "urn:oasis:names:tc:SAML:1.1:protocol",
+    "urn:mace:shibboleth:1.0"
+  ],
+  "singleSignOnService": [
+    { "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST", "location": "https://idp.massey.ac.nz/idp/profile/SAML2/POST/SSO" },
+    { "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign", "location": "https://idp.massey.ac.nz/idp/profile/SAML2/POST-SimpleSign/SSO" },
+    { "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect", "location": "https://idp.massey.ac.nz/idp/profile/SAML2/Redirect/SSO" },
+    { "binding": "urn:mace:shibboleth:1.0:profiles:AuthnRequest", "location": "https://idp.massey.ac.nz/idp/profile/Shibboleth/SSO" }
+  ],
+  "singleLogoutService": [
+    { "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect", "location": "https://idp.massey.ac.nz/idp/profile/SAML2/Redirect/SLO" },
+    { "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST", "location": "https://idp.massey.ac.nz/idp/profile/SAML2/POST/SLO" },
+    { "binding": "urn:oasis:names:tc:SAML:2.0:bindings:SOAP", "location": "https://idp.massey.ac.nz:8443/idp/profile/SAML2/SOAP/SLO" }
+  ],
+  "attributeAuthority": true,
+  "federations": ["Tuakiri Federation", "eduGAIN"],
+  "federationEvidence": "https://met.refeds.org/met/entity/https%3A%2F%2Fidp.massey.ac.nz%2Fidp%2Fshibboleth/"
+}

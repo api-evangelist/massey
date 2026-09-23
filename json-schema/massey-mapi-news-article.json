@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/massey/refs/heads/main/json-schema/massey-mapi-news-article.json",
+  "title": "Massey M-API News Article",
+  "description": "A news article record returned by the Massey University M-API v1 at path news/articles. Field names and semantics are taken from Massey's own published 'Valid return fields' table at https://www.massey.ac.nz/api/v1/. Types are inferred from that documentation; Massey publishes no schema of its own.",
+  "x-provenance": {
+    "generated": "2026-09-01",
+    "method": "derived",
+    "source": "https://www.massey.ac.nz/api/v1/"
+  },
+  "type": "object",
+  "properties": {
+    "uuid": { "type": "string", "description": "Article identifier (GUID)." },
+    "type_uuid": { "type": "string", "description": "Article type identifier (GUID)." },
+    "type": { "type": "string", "description": "Human-readable article type, e.g. 'University News'." },
+    "title": { "type": "string" },
+    "slug": { "type": "string" },
+    "summary": { "type": "string" },
+    "body": { "type": "string", "description": "Full article body. Returned only when requested through the args 'fields' argument." },
+    "thumbnail": { "type": "string" },
+    "image": { "type": "string", "description": "Returned only when requested through the args 'fields' argument." },
+    "created": { "type": "string", "description": "Creation timestamp. Non-ISO format, e.g. 'March, 23 2020 16:03:48 +1300'." },
+    "modified": { "type": "string" },
+    "released": { "type": "string" }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,24 @@
+{
+  "_provenance": {
+    "generated": "2026-09-01",
+    "method": "probed",
+    "source": "https://mro.massey.ac.nz/server/api",
+    "status": 200,
+    "note": "Live anonymous HAL root of Massey Research Online. _links truncated to a representative subset."
+  },
+  "response": {
+    "dspaceUI": "https://mro.massey.ac.nz",
+    "dspaceName": "Massey Research Online",
+    "dspaceServer": "https://mro.massey.ac.nz/server",
+    "dspaceVersion": "DSpace 8.3",
+    "type": "root",
+    "_links": {
+      "authn": { "href": "https://mro.massey.ac.nz/server/api/authn" },
+      "bitstreams": { "href": "https://mro.massey.ac.nz/server/api/core/bitstreams" },
+      "browses": { "href": "https://mro.massey.ac.nz/server/api/discover/browses" },
+      "bundles": { "href": "https://mro.massey.ac.nz/server/api/core/bundles" },
+      "collections": { "href": "https://mro.massey.ac.nz/server/api/core/collections" },
+      "communities": { "href": "https://mro.massey.ac.nz/server/api/core/communities" }
+    }
+  }
+}

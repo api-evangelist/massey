@@ -1,0 +1,67 @@
+specification: API Commons Lifecycle
+specificationVersion: '0.1'
+provider: Massey University
+providerId: massey
+generated: '2026-09-01'
+method: derived
+acquisition: probed
+source: Massey University's own published statements plus live probes
+description: >-
+  Version and retirement status of Massey University's institution-operated API surfaces.
+  This file exists because the previous profile of this institution recorded the M-API as
+  simply "no longer available" - which is true of one host and false of another, and the
+  distinction changes whether the university has a callable API at all.
+surfaces:
+  - id: massey:mapi-v1
+    name: M-API WebService API v1
+    host: www.massey.ac.nz
+    base: https://www.massey.ac.nz/api/v1/massey.cfc
+    stage: live-unsupported
+    verified: '2026-09-01'
+    status_code: 200
+    statement: >-
+      "V1 is a development experiment for DATA RETRIEVAL ONLY, not recommended for public
+      consumption, is not supported, and may be discontinued without notice."
+    statement_source: https://www.massey.ac.nz/api/v1/
+    availability: >-
+      Documented, responding, and API-key gated. Massey states applications for new keys are
+      not yet publicly available, so the surface is effectively closed to new integrators
+      even though it is running.
+  - id: massey:mapi-v1_2
+    name: M-API WebService API v1_2
+    host: api.massey.ac.nz
+    stage: retired
+    verified: '2026-09-01'
+    status_code: 200
+    statement: 'This is a legacy API service and is no longer available.'
+    statement_source: https://api.massey.ac.nz/
+    availability: >-
+      The landing page still serves at HTTP 200 but declares the service withdrawn.
+      https://api.massey.ac.nz/v1_2/ returns 404. Not recorded as a callable surface.
+  - id: massey:mro-rest
+    name: Massey Research Online DSpace REST API
+    host: mro.massey.ac.nz
+    stage: production
+    software_version: DSpace 8.3
+    verified: '2026-09-01'
+    status_code: 200
+    availability: >-
+      Anonymous read on repository root, communities and collections; item and bitstream
+      listings return 401. No deprecation notice published.
+  - id: massey:mro-oai-pmh
+    name: Massey Research Online OAI-PMH
+    host: mro.massey.ac.nz
+    stage: production
+    protocol_version: OAI-PMH 2.0
+    verified: '2026-09-01'
+    status_code: 200
+    availability: Fully open, no deprecation notice published.
+  - id: massey:idp-shibboleth
+    name: Massey University Shibboleth IdP
+    host: idp.massey.ac.nz
+    stage: production
+    verified: '2026-09-01'
+    status_code: 200
+    availability: >-
+      Metadata published continuously through the Tuakiri Federation and eduGAIN. Coexists
+      with a Microsoft Entra ID tenant; no statement was found about migrating one to the other.

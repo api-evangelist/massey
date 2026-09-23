@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+method: derived
+  acquisition: probed
+  Provenance: generated 2026-09-01
+  Source: https://www.massey.ac.nz/api/v1/massey.cfc?method=get&path=news/articles&args=limit:2
+  HTTP status: 200 (the M-API returns 200 for failures; read <status>, not the status code)
+  This is the response to a request carrying NO api key. No credential of any kind was used.
+-->
+<result><message>Invalid api key</message><status>false</status><data></data></result>

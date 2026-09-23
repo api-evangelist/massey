@@ -1,0 +1,50 @@
+specification: API Commons Errors
+specificationVersion: '0.1'
+provider: Massey University
+providerId: massey
+generated: '2026-09-01'
+method: derived
+acquisition: probed
+source: error responses observed live on Massey University hosts
+description: >-
+  Error semantics observed on Massey's institution-operated surfaces. The two surfaces do not
+  share a convention: the M-API signals failure in the response body at HTTP 200, while the
+  repository returns conventional HTTP status codes with a Spring-style JSON body.
+surfaces:
+  - id: massey:mapi-v1
+    convention: in-body
+    http_status_on_error: 200
+    note: >-
+      The M-API returns HTTP 200 for both success and failure. Clients MUST read the
+      `status` boolean rather than the HTTP status code. There is no error code vocabulary
+      and no machine-readable error type.
+    observed:
+      - request: 'GET /api/v1/massey.cfc?method=get&path=news/articles&args=limit:2 (no apikey)'
+        status: 200
+        content_type: application/xml
+        body: '<result><message>Invalid api key</message><status>false</status><data></data></result>'
+  - id: massey:mro-rest
+    convention: http-status + json body
+    note: Standard DSpace 8 / Spring Boot error envelope.
+    observed:
+      - request: 'GET /server/api/core/items'
+        status: 401
+        content_type: application/json
+        body: >-
+          {"timestamp":"2026-09-01T20:41:48.069+00:00","status":401,"error":"Unauthorized",
+          "message":"Authentication is required","path":"/server/api/core/items"}
+      - request: 'GET /server/api/config/properties'
+        status: 405
+        content_type: application/json
+        note: Method not allowed on the collection root.
+  - id: massey:mro-oai-pmh
+    convention: protocol-level
+    http_status_on_error: 200
+    note: >-
+      OAI-PMH errors are returned as HTTP 200 with an <error code="..."> element per the
+      OAI-PMH 2.0 specification (badVerb, badArgument, cannotDisseminateFormat,
+      idDoesNotExist, noRecordsMatch, noSetHierarchy, badResumptionToken).
+operational_note: >-
+  mro.massey.ac.nz was intermittently unreachable during probing on 2026-09-01: several
+  requests to endpoints that had just answered 200 failed at the TLS layer (curl exit 35,
+  no HTTP status). The host is live but not consistently responsive to automated clients.
