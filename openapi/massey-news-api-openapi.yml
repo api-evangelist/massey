@@ -89,26 +89,6 @@ paths:
                 $ref: '#/components/schemas/MApiEnvelope'
 components:
   schemas:
-    MApiEnvelope:
-      type: object
-      description: Common M-API response envelope.
-      properties:
-        message:
-          type: string
-          description: Error or status message. Empty string on success.
-        status:
-          type: boolean
-          description: True when the request succeeded.
-        result:
-          type: array
-          description: Result rows, present on success.
-          items:
-            $ref: '#/components/schemas/NewsArticle'
-        data:
-          description: Present and empty on failure.
-      required:
-      - message
-      - status
     NewsArticle:
       type: object
       description: News article record. Fields are the ones Massey's documentation lists as valid return fields for `news/articles`.
@@ -144,6 +124,26 @@ components:
           type: string
         released:
           type: string
+    MApiEnvelope:
+      type: object
+      description: Common M-API response envelope.
+      properties:
+        message:
+          type: string
+          description: Error or status message. Empty string on success.
+        status:
+          type: boolean
+          description: True when the request succeeded.
+        result:
+          type: array
+          description: Result rows, present on success.
+          items:
+            $ref: '#/components/schemas/NewsArticle'
+        data:
+          description: Present and empty on failure.
+      required:
+      - message
+      - status
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
