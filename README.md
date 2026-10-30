@@ -1,4 +1,4 @@
-# Massey University (massey)
+# Massey University
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,45 +64,149 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Massey University is a public research university in New Zealand (Palmerston North, Wellington, and Auckland), ranked #239 in the QS World University Rankings 2025. Its public, machine-readable footprint is centered on Massey Research Online (MRO), a DSpace 8.3 institutional repository exposing standards-based OAI-PMH and REST interfaces. This repository catalogs that footprint as an APIs.json profile.
+Massey University (Te Kunenga ki Pūrehuroa) is a public research university in New Zealand with campuses in Palmerston North (Manawatū), Wellington and Albany (Auckland). Its machine-readable footprint is real but small, and it is three different things at once. The university itself operates three callable surfaces: an OAI-PMH 2.0 endpoint and a DSpace 8.3 HAL/JSON REST API on its own host for Massey Research Online / Pātaka Rangahau, and the M-API, a news, events and staff-directory web service documented at www.massey.ac.nz/api/v1/ which is live and answering but API-key gated, self-described as unsupported, and closed to new key applications; the later M-API v1_2 host, api.massey.ac.nz, now states the service is no longer available. It operates two identity surfaces that are stronger than any of its APIs: a Shibboleth SAML 2.0 Identity Provider at idp.massey.ac.nz published through the Tuakiri Federation and eduGAIN, and a Microsoft Entra ID tenant discoverable by domain. And it is registered in three identifier registries - DataCite (as a DataCite New Zealand consortium organization with two repositories), Crossref (two members, three prefixes) and ROR. Everything else that looks like a Massey API is a vendor's: library discovery is EBSCO Discovery Service, opening hours and enquiries run on Springshare LibCal and LibAnswers. There is no central developer portal, no published API catalog, no llms.txt and no .well-known/apis.json.
 
-- APIs.json: https://raw.githubusercontent.com/api-evangelist/massey/refs/heads/main/apis.yml
-- Run with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=massey-api-evangelist&utm_content=repo
+**Areas:** Education · Higher Education · University · New Zealand · Research · Research Data · Open Access · Institutional Repository · OAI-PMH · DSpace · Identity Federation · Shibboleth
 
-## Type
+## Massey University on APIs.io
 
-- Index / Consumer / 3rd-Party
+Everything profiled for Massey University is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/massey/](https://apis.io/providers/massey/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (12)
 
-Education, Higher Education, University, Research, Open Access, Institutional Repository, New Zealand
+- [Massey University Shibboleth Identity Provider](https://apis.io/apis/massey/idp-shibboleth/) — Massey University's own SAML 2.0 / Shibboleth Identity Provider. The metadata document is public, machine-readable and continuously published to federation…
+- [Massey University Microsoft Entra ID Tenant](https://apis.io/apis/massey/entra-id/) — Massey University's Microsoft Entra ID tenant, discoverable by domain. The OpenID Connect discovery document is public and machine-readable and gives the…
+- [DataCite Membership — Massey University](https://apis.io/apis/massey/datacite/) — Massey University is a DataCite member organization within the DataCite New Zealand consortium and mints DOIs through two active repositories -…
+- [Crossref Membership — Massey University](https://apis.io/apis/massey/crossref/) — Massey University registers DOIs with Crossref under member id 12895, prefixes 10.33217 and 10.54322, 314 DOIs recorded (22 current, 292 backfile). A second…
+- [ROR Registration — Massey University](https://apis.io/apis/massey/ror/) — Massey University's entry in the Research Organization Registry. This is the canonical machine-readable identifier for the institution and the anchor every…
+- [Discover — EBSCO Discovery Service (Massey tenancy)](https://apis.io/apis/massey/ebsco-discover/) — "Discover" is Massey University Library's discovery layer, an EBSCO Discovery Service tenancy under customer scope 4egzpd, selected by the library in 2012.…
+- [Massey Library Hours & Bookings — Springshare LibCal (Massey tenancy)](https://apis.io/apis/massey/libcal/) — Massey University Library's opening hours, room bookings and events run on a Springshare LibCal tenancy. LibCal exposes a REST API at /api/1.1/ which…
+- [Massey Library Enquiries — Springshare LibAnswers (Massey tenancy)](https://apis.io/apis/massey/libanswers/) — Massey University Library's public enquiry and FAQ service, running on a Springshare LibAnswers tenancy. Verified live 2026-09-01. Springshare's contract,…
+- [Massey University Core API](https://apis.io/apis/massey/massey-core-api/) — Communities, collections, items and bitstreams.
+- [Massey University Discovery API](https://apis.io/apis/massey/massey-discovery-api/) — Search and browse indexes.
+- [Massey University News API](https://apis.io/apis/massey/massey-news-api/) — Massey news system data.
+- [Massey University Root API](https://apis.io/apis/massey/massey-root-api/) — The Root API from Massey University — 1 operation(s) for root.
 
-## APIs
+### Published properties
 
-- **Massey Research Online OAI-PMH** — OAI-PMH 2.0 metadata-harvesting interface for the MRO DSpace repository. Docs: https://mro.massey.ac.nz/ — Base URL: https://mro.massey.ac.nz/server/oai/request
-- **Massey Research Online DSpace REST API** — HAL/JSON REST API (DSpace 8.3) for repository communities, collections, items, and bitstreams. Docs: https://mro.massey.ac.nz/ — Base URL: https://mro.massey.ac.nz/server/api
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## Plans / Rate Limits / FinOps
+#### JSON Schema (4)
 
-- Plans: [plans/massey-plans-pricing.yml](plans/massey-plans-pricing.yml)
-- Rate Limits: [rate-limits/massey-rate-limits.yml](rate-limits/massey-rate-limits.yml)
-- FinOps: [finops/massey-finops.yml](finops/massey-finops.yml)
+The data models the API reads and writes.
 
-## Timestamps
+- [Massey M-API Response Envelope](https://apis.io/schemas/massey/massey-mapi-envelope/)
+- [Massey M-API News Article](https://apis.io/schemas/massey/massey-mapi-news-article/)
+- [Massey Research Online Repository Root](https://apis.io/schemas/massey/massey-mro-dspace-root/)
+- [Massey Research Online Paged HAL Collection](https://apis.io/schemas/massey/massey-mro-paged-hal/)
 
-- Created: 2026-06-03
-- Modified: 2026-06-03
+#### JSON-LD (1)
 
-## Common Properties
+Linked-data contexts for the provider's vocabulary.
 
-- Website: https://www.massey.ac.nz/
-- LinkedIn: https://www.linkedin.com/school/massey-university/
-- Review: [review.yml](review.yml)
+- [Massey Context](https://apis.io/jsonld/massey/massey-context/)
 
-## Notes
+#### Examples (3)
 
-All endpoints were probed live on 2026-06-03. The MRO OAI-PMH and DSpace REST API endpoints returned valid responses (HTTP 200). The legacy M-API WebService (https://www.massey.ac.nz/api/v1_2/) loads but states the service is no longer available; its historical access was gated behind an ITS Service Desk developer-key request and is therefore not cataloged as an active API. The `MasseyUniversity` GitHub organization exists but has no public repositories, so it is not listed as a developer resource. No endpoints or documentation were fabricated.
+Example requests and responses.
 
-## Maintainers
+- [Massey Idp Metadata Summary](https://apis.io/examples/massey/massey-idp-metadata-summary/)
+- [Massey Mro Communities](https://apis.io/examples/massey/massey-mro-communities/)
+- [Massey Mro Root](https://apis.io/examples/massey/massey-mro-root/)
 
-- Kin Lane — kin@apievangelist.com
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Massey University — openapi rules](https://apis.io/rules/massey/massey-openapi-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Massey Authentication](https://apis.io/security/massey/massey-authentication/)
+- [Massey Domain Security](https://apis.io/security/massey/massey-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Massey Plans Pricing](https://apis.io/plans/massey/massey-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Massey Rate Limits](https://apis.io/rate-limits/massey/massey-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Massey Finops](https://apis.io/finops/massey/massey-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.massey.ac.nz/)
+- [Documentation](https://www.massey.ac.nz/api/v1/)
+- [API reference](https://www.massey.ac.nz/api/v1/)
+- [Support](https://www.massey.ac.nz/about/contact-us/)
+- [Blog](https://sites.massey.ac.nz/library/)
+- [Terms of service](https://www.massey.ac.nz/about/policies-procedures-and-guidelines/)
+- [Privacy policy](https://www.massey.ac.nz/privacy/)
+- [GitHub](https://github.com/Massey-Uni)
+
+## API Evangelist rating
+
+**Kin Score 29.4** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 63.4 |
+| Contract quality | 29.2 |
+| Contract governance | 11.4 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 35.7 |
+| Access clarity | 26.3 |
+
+**Agent readiness 31.1** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | na |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | na |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 24.5** — Education & Research
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/massey/](https://apis.io/providers/massey/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Massey University: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/massey/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
